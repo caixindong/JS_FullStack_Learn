@@ -10,15 +10,6 @@ import {
 
 import SearchPage from './SearchPage';
 
-class HelloWorld extends Component {
-    render() {
-      return (
-        <Text style={styles.text}>
-          hello world!
-        </Text>
-      );
-    }
-}
 
 class PropertyFinder extends Component {
   render() {
