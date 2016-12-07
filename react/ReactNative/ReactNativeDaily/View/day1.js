@@ -1,3 +1,4 @@
+'use strict';
 import React,{Component} from 'react';
 import {
   Platform,
@@ -19,7 +20,7 @@ class WatchFace extends Component {
   render() {
     return (
       <View style={styles.watchFaceContainer}>
-            <Text style={styles.sectionTime}>{this.props.sectionTime}</Text>
+        <Text style={styles.sectionTime}>{this.props.sectionTime}</Text>
             <Text style={styles.totalTime}>{this.props.totalTime}</Text>
       </View>
     );
@@ -71,7 +72,7 @@ class WatchControl extends Component {
     if (this.state.watchOn) {
       this.props.addRecord();
     } else {
-      this.state.clearRecord();
+      this.props.clearRecord();
       this.setState({
         stopBtnText: '计次'
       });
@@ -140,7 +141,7 @@ export default class extends Component {
     this.state = {
       stopWatch: false,
       resetWatch: true,
-      intialTime: 0,
+      initialTime: 0,
       currentTime: 0,
       recordTime: 0,
       timeAccumulation: 0,
@@ -177,12 +178,12 @@ export default class extends Component {
           stopWatch: false,
           resetWatch: false,
           timeAccumulation: 0,
-          intialTime: (new Date()).getTime(),
+          initialTime: (new Date()).getTime(),
         });
     } else {
         this.setState({
           stopWatch: false,
-          intialTime: (new Date()).getTime(),
+          initialTime: (new Date()).getTime(),
         });
     }
     let milSecond,
@@ -199,8 +200,9 @@ export default class extends Component {
         this.setState({
           currentTime: (new Date()).getTime(),
         });
-        countingTime = this.state.timeAccumulation;
+        countingTime = this.state.timeAccumulation + this.state.currentTime - this.state.initialTime;
         minute = Math.floor(countingTime/(60*1000));
+                console.log(minute);
         second = Math.floor((countingTime-6000*minute)/1000);
         milSecond = Math.floor((countingTime%1000)/10);
         seccountingTime = countingTime - this.state.recordTime;
@@ -234,7 +236,7 @@ export default class extends Component {
     if (recordCounter < 8) {
       record.pop();
     }
-    record.unshift({title:'计次'+recordCounter,time:this.state.sectionTime});
+    record.unshift({title:'计次'+recordCounter,time:this.state.totalTime});
     this.setState({
       recordTime: this.state.timeAccumulation + this.state.currentTime - this.state.initialTime,
       recordCounter: recordCounter,
@@ -296,7 +298,7 @@ const styles = StyleSheet.create({
       paddingTop: 50,
       paddingLeft: 30,
       paddingRight: 30,
-      paddingBottom: 4,
+      paddingBottom: 40,
       backgroundColor: '#fff',
       borderBottomWidth: 1,
       borderBottomColor: '#ddd',

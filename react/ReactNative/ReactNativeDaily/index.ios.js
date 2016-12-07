@@ -15,10 +15,14 @@ import {
   TouchableHighlight,
 } from 'react-native';
 
+
 import Utils from './View/Utils';
 import Day1 from './View/day1';
+import Day2 from './View/day2';
 
-let listing = [{title:'Day 1',component:Day1}];
+let listing = [
+  {title:'Day 1',component:Day1},
+  {title:'Day 2',component:Day2}];
 
 class DemoListView extends Component {
   constructor(props) {
