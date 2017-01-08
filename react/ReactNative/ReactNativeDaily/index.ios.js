@@ -47,6 +47,7 @@ class DemoListView extends Component {
     this.props.navigator.push({
       title: rowData.title,
       component: rowData.component,
+      // navigationBarHidden:true,
     });
     console.log(rowData);
   }
@@ -74,8 +75,11 @@ export default class ReactNativeDaily extends Component {
     return (
       <NavigatorIOS
         style = {styles.container}
-        initialRoute={{title:'Daily Learn',
-                      component:DemoListView}}
+        initialRoute={{
+          title:'Daily Learn',
+          component:DemoListView,
+
+        }}
         />
     );
   }
