@@ -19,10 +19,20 @@ import {
 import Utils from './View/Utils';
 import Day1 from './View/day1';
 import Day2 from './View/day2';
+import Day3 from './View/day3';
+import Day4 from './View/day4';
+import Day5 from './View/day5';
+import Day6 from './View/day6'
+import Day7 from './View/day7'
 
 let listing = [
   {title:'Day 1',component:Day1},
-  {title:'Day 2',component:Day2}];
+  {title:'Day 2',component:Day2},
+  {title:'Flexbox layout',component:Day3},
+  {title:'props', component:Day4},
+  {title:'state', component:Day5},
+  {title:'TextInput', component:Day6},
+  {title:'FlatList', component:Day7}];
 
 class DemoListView extends Component {
   constructor(props) {
