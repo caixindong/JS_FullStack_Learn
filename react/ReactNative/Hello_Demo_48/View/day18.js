@@ -10,6 +10,7 @@ import {
   Button,
 } from 'react-native';
 
+
 //获取屏幕大小
 import Dimensions from 'Dimensions';
 var ScreenWidth = Dimensions.get('window').width;
@@ -20,13 +21,20 @@ var ScreenHeight = Dimensions.get('window').height;
 //组件内元素必须是等高的——暂时还无法支持瀑布流布局。
 var column = 3;
 var cellHeight = 88;
+var count = 20;
 
 //key默认需要的键，用于区分不同item
-var list = [{key:0,title:'1'},{key:1,title:'2'},{key:2, title:'3'},{key:3, title:'4'}];
+
+var list = [];
+for (var i = 0; i < count; i++) {
+  list.push({key:i,title:(i+1).toString()});
+}
+
 
 export default class extends Component {
   constructor() {
       super();
+      var a;
       this.state = {
         refresh: false,
       }
@@ -47,7 +55,7 @@ export default class extends Component {
   }
 
   _ItemSeparatorComponent = () => {
-    return (<View style={{backgroundColor: 'gray',height: 20,}}>
+    return (<View style={{backgroundColor: 'black',height: 20,}}>
       <Text style={{color:'white',fontSize: 10}}>This is Separator
       </Text>
     </View>);
@@ -73,7 +81,8 @@ export default class extends Component {
       </Text>
     </View>);
   }
-
+//是一个可选的优化，用于避免动态测量内容尺寸的开销，不过前提是你可以提前知道内容的高度。
+//如果你的行高是固定的，getItemLayout用起来就既高效又简单
   _getItemLayout= (date,index) => ({length:cellHeight, offset: (cellHeight+20)*index,index})
 
   _onRefresh = () => {
@@ -86,15 +95,22 @@ export default class extends Component {
                 },4000);
   }
 
+  _onBtnPress = () => {
+    this._flatlist.scrollToEnd();
+  }
+
   render() {
     return (
       <View style= {{flex:1}}>
-        <Button title='Refresh' color='blue' onPress={() => {
-          this.setState({refresh:true});
-          
+        <Button title='To End' color='blue' onPress={() => {
+          this.refs._flatlist.scrollToEnd();
+        }}/>
+        <Button title='To Middle' color='blue' onPress= {() => {
+          //0.5中间显示第6个元素，0是顶部显示第6个元素，1为底部
+          this.refs._flatlist.scrollToIndex({viewPosition:0,index:2});
         }}/>
         <FlatList
-
+          ref = "_flatlist"
           data = {list}
           renderItem={this._renderItem}
           ItemSeparatorComponent={this._ItemSeparatorComponent}
@@ -120,11 +136,11 @@ const styles = StyleSheet.create({
   cellcontainer: {
     flexDirection: 'row',
     padding: 5,
-    backgroundColor: '#F6F6F6',
+    backgroundColor: 'red',
     height: cellHeight,
     width: ScreenWidth/column,
     borderWidth:1,
-    borderColor: '#445588'
+    borderColor: 'black'
     },
   text: {
     flex: 1,
